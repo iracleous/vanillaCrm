@@ -1,8 +1,11 @@
 package gr.codehub.vanillahr.service;
 
+import gr.codehub.vanillahr.exceptions.BusinessException;
 import gr.codehub.vanillahr.model.Department;
 import gr.codehub.vanillahr.model.Employee;
 import gr.codehub.vanillahr.repository.Repository;
+
+import java.util.List;
 
 public class EmployeeServiceImpl implements EmployeeService{
 
@@ -13,7 +16,12 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public Employee enroll(Employee employee) {
+    public Employee enroll(Employee employee) throws BusinessException {
+        //validations
+        if (employee== null)
+                throw new BusinessException("null employee");
+        if ("Athens".equals(employee.getAddress()))
+            throw new BusinessException("Athens not permitted");
         return employeeRepository.create(employee);
     }
 
@@ -28,10 +36,24 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
+    public boolean saveBatch(List<Employee> employees) {
+
+if (employees==null) return false;
+        for (Employee employee:employees)
+            employeeRepository.create(employee);
+
+          return true;
+    }
+
+    @Override
     public void assignEmployeeToDepartment(Employee employee, Department department) {
 
     }
 
+
+    public Department establishDepartment(Department department){
+        return null;
+    }
     @Override
     public Department findDepartment(int id) {
         return null;

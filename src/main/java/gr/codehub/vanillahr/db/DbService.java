@@ -17,7 +17,7 @@ public class DbService {
 
     private Connection connection = null;
 ;
-    private Connection getConnection(){
+    public Connection getConnection(){
         if (connection != null) return connection;
         try {
             server = Server.createTcpServer("-tcpAllowOthers", "-tcpDaemon");
@@ -41,7 +41,17 @@ public class DbService {
     }
 
 
-    public boolean createTableEmployees( ) throws SQLException{
+
+    public void closeConnection(){
+        Connection connection = getConnection();
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean createTableEmployees( ) throws SQLException {
         Connection connection = getConnection();
 
         String sql ="create table Employee(\n" +
@@ -63,7 +73,7 @@ public class DbService {
         return true;
     }
 
-    public boolean createTableDepartments( ) throws SQLException{
+    public boolean createTableDepartments( ) throws SQLException {
         Connection connection = getConnection();
 
         String sql ="create table Department(\n" +
@@ -78,111 +88,5 @@ public class DbService {
         return true;
     }
 
-
-    public int saveEmployee( Employee employee){
-
-        Connection connection = getConnection();
-        if (connection== null) return 0;
-
-        String sql = "insert into Employee( name,  address ,   specialityString,  specialityInt ,    dateOfBirth  )  values(?,?,?,?, ?) ";
-
-        int key = 0;
-        try (PreparedStatement insertEmployee = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS) ){
-
-            insertEmployee.setString(1, employee.getName());
-            insertEmployee.setString(2, employee.getAddress());
-            insertEmployee.setString(3, employee.getSpeciality().toString());
-            insertEmployee.setInt(4, employee.getSpeciality().ordinal());
-            insertEmployee.setDate(5, new java.sql.Date(employee.getDateOfBirth().getTime()));
-
-            insertEmployee.executeUpdate();
-
-            ResultSet rs = insertEmployee.getGeneratedKeys();
-            if (rs != null && rs.next()) {
-                key = rs.getInt(1);
-            }
-        }
-        catch(SQLException sqlException){
-            sqlException.printStackTrace();
-        }
-        finally{
-            return key;
-        }
-    }
-
-
-    public Employee getEmployee(int id){
-        Connection connection = getConnection();
-        if (connection== null) return null;
-
-
-
-        String sql = "select * from Employee  where id = "+ id;
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-
-            ResultSet resultSet = statement.executeQuery(sql);
-            Employee employee = new Employee();
-            while (resultSet.next()) {
-
-                employee.setId(resultSet.getInt("id")  );
-                employee.setName(resultSet.getString("name")  );
-                employee.setAddress(resultSet.getString("address")  );
-                employee.setSpeciality(Speciality.getSpeciality(resultSet.getInt("specialityInt")));
-                employee.setDateOfBirth(resultSet.getDate("dateOfBirth"));
-
-            }
-            return employee;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        return new Employee();
-    }
-
-/////////////////////////////////////////////////
-
-    public int saveDepartment( Department department){
-
-        Connection connection = getConnection();
-        if (connection== null) return 0;
-
-        String sql = "    insert into Department (  name,   location ) values(?,?) ";
-
-        int key = 0;
-        try (PreparedStatement insert = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS) ){
-
-            insert.setString(1, department.getName());
-            insert.setString(2, department.getLocation());
-
-
-
-            insert.executeUpdate();
-
-            ResultSet rs = insert.getGeneratedKeys();
-            if (rs != null && rs.next()) {
-                key = rs.getInt(1);
-            }
-        }
-        catch(SQLException sqlException){
-            sqlException.printStackTrace();
-        }
-        finally{
-            return key;
-        }
-    }
-
-
-
-    public void closeConnection(){
-        Connection connection = getConnection();
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
 }
