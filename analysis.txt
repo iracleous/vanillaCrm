@@ -1,0 +1,19 @@
+Human Resources
+
+Use case
+-----------
+employees hire, dismiss
+Department enroll
+Project assign
+
+Domain objects
+
+Employee
+	id, name, address, speciality, dateOfBirth, belongingDepartment,
+	List<Project>, managingProject, directorDepartment
+
+Department
+	id, name, location, List<Employee>, director
+
+Projects
+	id, name, List<Employee>, manager
