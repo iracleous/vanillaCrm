@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
-public class EmployeeRepositoryImpl implements EmployeeRepository{
+public class EmployeeRepositoryImpl implements Repository<Employee>{
 
 private DbService dbservice;
 
@@ -16,7 +16,7 @@ private DbService dbservice;
     }
 
     @Override
-    public Employee createEmployee(Employee employee) {
+    public Employee create(Employee employee) {
 
         int key = dbservice.saveEmployee(employee);
         employee.setId(key);
@@ -25,22 +25,29 @@ private DbService dbservice;
     }
 
     @Override
-    public Optional<Employee> readEmployee(int employeeId) {
-        return Optional.empty();
+    public Optional<Employee> read(int employeeId) {
+
+            Employee employee = dbservice.getEmployee(employeeId);
+
+         return  (employee==null)? Optional.empty(): Optional.of(employee);
+
+//        if (employee==null)
+//            return Optional.empty();
+//        return Optional.of(employee);
     }
 
     @Override
-    public List<Employee> readEmployee() {
+    public List<Employee> read() {
         return null;
     }
 
     @Override
-    public Employee updateEmployee(int employeeId, Employee e) {
+    public Employee update(int employeeId, Employee e) {
         return null;
     }
 
     @Override
-    public boolean deleteEmployee(int employeeId) {
+    public boolean delete(int employeeId) {
         return false;
     }
 }

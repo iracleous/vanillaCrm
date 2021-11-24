@@ -1,7 +1,8 @@
 package gr.codehub.vanillahr.service;
 
+import gr.codehub.vanillahr.model.Department;
 import gr.codehub.vanillahr.model.Employee;
-import gr.codehub.vanillahr.repository.EmployeeRepository;
+
 
 /**
  * Service gives the signatures of the methods that
@@ -11,5 +12,9 @@ public interface EmployeeService {
 
     Employee enroll(Employee employee);
     Employee dismiss(Employee employee);
+
+    Employee find(int key);
+
+    void assignEmployeeToDepartment(Employee employee, Department department);
 
 }

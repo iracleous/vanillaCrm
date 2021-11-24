@@ -1,0 +1,15 @@
+2021-11-24 10:41:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "EMPLOYEE" not found; SQL statement:
+insert into Employee( name,  address ,   specialityString,  specialityInt ,    dateOfBirth  )  values(?,?,?,?, ?)  [42102-200]
+2021-11-24 10:42:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "EMPLOYEE" not found; SQL statement:
+insert into Employee( name,  address ,   specialityString,  specialityInt ,    dateOfBirth  )  values(?,?,?,?, ?)  [42102-200]
+2021-11-24 10:43:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "EMPLOYEE" not found; SQL statement:
+insert into Employee( name,  address ,   specialityString,  specialityInt ,    dateOfBirth  )  values(?,?,?,?, ?)  [42102-200]
+2021-11-24 10:44:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "EMPLOYEE" not found; SQL statement:
+insert into Employee( name,  address ,   specialityString,  specialityInt ,    dateOfBirth  )  values(?,?,?,?, ?)  [42102-200]
+2021-11-24 10:44:55 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "EMPLOYEE" not found; SQL statement:
+insert into Employee( name,  address ,   specialityString,  specialityInt ,    dateOfBirth  )  values(?,?,?,?, ?)  [42102-200]

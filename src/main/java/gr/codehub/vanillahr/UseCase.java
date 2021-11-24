@@ -3,8 +3,8 @@ package gr.codehub.vanillahr;
 import gr.codehub.vanillahr.db.DbService;
 import gr.codehub.vanillahr.model.Employee;
 import gr.codehub.vanillahr.model.Speciality;
-import gr.codehub.vanillahr.repository.EmployeeRepository;
 import gr.codehub.vanillahr.repository.EmployeeRepositoryImpl;
+import gr.codehub.vanillahr.repository.Repository;
 import gr.codehub.vanillahr.service.EmployeeService;
 import gr.codehub.vanillahr.service.EmployeeServiceImpl;
 
@@ -32,7 +32,7 @@ public class UseCase {
         }
 
 
-        EmployeeRepository employeeRepository =
+       Repository<Employee> employeeRepository =
                 new EmployeeRepositoryImpl(dbService);
         EmployeeService employeeService =
                 new EmployeeServiceImpl(employeeRepository);
@@ -41,6 +41,16 @@ public class UseCase {
 
 
         employeeService.enroll(employee);
+
         System.out.println(employee.getId());
+
+        Employee employee1 = employeeService.find( employee.getId());
+
+        System.out.println(employee1);
+
+
+        dbService.closeConnection();
+
+
     }
 }

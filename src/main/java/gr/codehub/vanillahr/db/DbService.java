@@ -1,6 +1,7 @@
 package gr.codehub.vanillahr.db;
 
 import gr.codehub.vanillahr.model.Employee;
+import gr.codehub.vanillahr.model.Speciality;
 import org.h2.tools.Server;
 
 import java.sql.*;
@@ -88,7 +89,7 @@ public class DbService {
                 key = rs.getInt(1);
             }
 
-            connection.close();
+
         }
         catch(SQLException sqlException){
             sqlException.printStackTrace();
@@ -103,9 +104,41 @@ public class DbService {
         Connection connection = getConnection();
         if (connection== null) return null;
 
-        String sql = "select * from Employee  where id=?";
-        return null;
+
+
+        String sql = "select * from Employee  where id = "+ id;
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(sql);
+            Employee employee = new Employee();
+            while (resultSet.next()) {
+
+                employee.setId(resultSet.getInt("id")  );
+                employee.setName(resultSet.getString("name")  );
+                employee.setAddress(resultSet.getString("address")  );
+                employee.setSpeciality(Speciality.getSpeciality(resultSet.getInt("specialityInt")));
+                employee.setDateOfBirth(resultSet.getDate("dateOfBirth"));
+
+            }
+            return employee;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        return new Employee();
     }
 
+
+    public void closeConnection(){
+        Connection connection = getConnection();
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
