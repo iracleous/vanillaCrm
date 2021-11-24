@@ -16,5 +16,13 @@ public class MainApp {
         // log messages using log(Level level, String msg)
         logger.log(Level.INFO, "This is message 1");
         logger.log(Level.WARNING, "This is message 2");
+
+
+
+        UseCase useCase = new UseCase();
+        useCase.testUseCase();
+
+
+
     }
 }

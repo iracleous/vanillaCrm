@@ -13,7 +13,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public Employee enroll(Employee employee) {
-        return null;
+        return employeeRepository.createEmployee(employee);
     }
 
     @Override
