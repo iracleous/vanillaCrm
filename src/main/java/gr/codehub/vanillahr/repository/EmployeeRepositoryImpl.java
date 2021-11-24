@@ -1,6 +1,7 @@
 package gr.codehub.vanillahr.repository;
 
 import gr.codehub.vanillahr.db.DbService;
+import gr.codehub.vanillahr.model.Department;
 import gr.codehub.vanillahr.model.Employee;
 
 import java.sql.Connection;
@@ -50,4 +51,11 @@ private DbService dbservice;
     public boolean delete(int employeeId) {
         return false;
     }
+
+
+
+    public Department getDepartment(int employeeId){
+        return null;
+    }
+
 }

@@ -1,6 +1,7 @@
 package gr.codehub.vanillahr;
 
 import gr.codehub.vanillahr.db.DbService;
+import gr.codehub.vanillahr.model.Department;
 import gr.codehub.vanillahr.model.Employee;
 import gr.codehub.vanillahr.model.Speciality;
 import gr.codehub.vanillahr.repository.EmployeeRepositoryImpl;
@@ -15,24 +16,9 @@ public class UseCase {
 
     public void testUseCase(){
 
-        Employee employee = new Employee();
-        employee.setName("Dimitris Dimitriou");
-        employee.setAddress("Athens");
-        employee.setDateOfBirth(new Date(100,11, 2));
-        employee.setSpeciality(Speciality.DEVELOPER);
-
-
+// needed classes
         DbService dbService = new DbService();
-
-
-        try {
-            dbService.createTableEmployees();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-       Repository<Employee> employeeRepository =
+        Repository<Employee> employeeRepository =
                 new EmployeeRepositoryImpl(dbService);
         EmployeeService employeeService =
                 new EmployeeServiceImpl(employeeRepository);
@@ -40,13 +26,38 @@ public class UseCase {
 
 
 
+  // data tranfer objects  dto
+        Employee employee = new Employee();
+        employee.setName("Dimitris Dimitriou");
+        employee.setAddress("Athens");
+        employee.setDateOfBirth(new Date(100,11, 2));
+        employee.setSpeciality(Speciality.DEVELOPER);
+
+        Department department = new Department();
+        department.setName("Human Resources");
+        department.setLocation("First Floor");
+
+// initialization create tables
+        try {
+            dbService.createTableEmployees();
+            dbService.createTableDepartments();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+//Use case
+
         employeeService.enroll(employee);
 
-        System.out.println(employee.getId());
 
-        Employee employee1 = employeeService.find( employee.getId());
 
-        System.out.println(employee1);
+        Employee employeeDb = employeeService.find( 1);
+
+        System.out.println(employeeDb);
+
+        Department departmentdb = employeeService.findDepartment( 1);
+
+        employeeService.assignEmployeeToDepartment(employeeDb, departmentdb);
 
 
         dbService.closeConnection();

@@ -1,5 +1,6 @@
 package gr.codehub.vanillahr.db;
 
+import gr.codehub.vanillahr.model.Department;
 import gr.codehub.vanillahr.model.Employee;
 import gr.codehub.vanillahr.model.Speciality;
 import org.h2.tools.Server;
@@ -62,9 +63,23 @@ public class DbService {
         return true;
     }
 
+    public boolean createTableDepartments( ) throws SQLException{
+        Connection connection = getConnection();
+
+        String sql ="create table Department(\n" +
+                "        id integer   PRIMARY KEY AUTO_INCREMENT,\n" +
+                "        name VARCHAR(50),\n" +
+                "        location VARCHAR(50),\n" +
+                "        director integer\n" +
+                "     );";
+
+        Statement statement = connection.createStatement();
+        int rowsAffected = statement.executeUpdate(sql);
+        return true;
+    }
+
 
     public int saveEmployee( Employee employee){
-
 
         Connection connection = getConnection();
         if (connection== null) return 0;
@@ -80,16 +95,12 @@ public class DbService {
             insertEmployee.setInt(4, employee.getSpeciality().ordinal());
             insertEmployee.setDate(5, new java.sql.Date(employee.getDateOfBirth().getTime()));
 
-
             insertEmployee.executeUpdate();
-
 
             ResultSet rs = insertEmployee.getGeneratedKeys();
             if (rs != null && rs.next()) {
                 key = rs.getInt(1);
             }
-
-
         }
         catch(SQLException sqlException){
             sqlException.printStackTrace();
@@ -130,6 +141,39 @@ public class DbService {
 
         return new Employee();
     }
+
+/////////////////////////////////////////////////
+
+    public int saveDepartment( Department department){
+
+        Connection connection = getConnection();
+        if (connection== null) return 0;
+
+        String sql = "    insert into Department (  name,   location ) values(?,?) ";
+
+        int key = 0;
+        try (PreparedStatement insert = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS) ){
+
+            insert.setString(1, department.getName());
+            insert.setString(2, department.getLocation());
+
+
+
+            insert.executeUpdate();
+
+            ResultSet rs = insert.getGeneratedKeys();
+            if (rs != null && rs.next()) {
+                key = rs.getInt(1);
+            }
+        }
+        catch(SQLException sqlException){
+            sqlException.printStackTrace();
+        }
+        finally{
+            return key;
+        }
+    }
+
 
 
     public void closeConnection(){

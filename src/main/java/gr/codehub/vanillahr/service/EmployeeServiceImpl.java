@@ -32,5 +32,10 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     }
 
+    @Override
+    public Department findDepartment(int id) {
+        return null;
+    }
+
 
 }

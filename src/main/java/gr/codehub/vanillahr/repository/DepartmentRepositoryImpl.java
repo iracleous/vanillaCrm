@@ -1,5 +1,6 @@
 package gr.codehub.vanillahr.repository;
 
+import gr.codehub.vanillahr.db.DbService;
 import gr.codehub.vanillahr.model.Department;
 
 import java.util.List;
@@ -7,9 +8,18 @@ import java.util.Optional;
 
 public class DepartmentRepositoryImpl implements Repository<Department>{
 
+    private DbService dbservice;
+
+    public DepartmentRepositoryImpl(DbService dbservice) {
+        this.dbservice = dbservice;
+    }
+
+
     @Override
     public Department create(Department department) {
-        return null;
+        int key= dbservice.saveDepartment(department);
+        department.setId(key);
+        return department;
     }
 
     @Override
@@ -31,4 +41,7 @@ public class DepartmentRepositoryImpl implements Repository<Department>{
     public boolean delete(int Id) {
         return false;
     }
+
+
+
 }
